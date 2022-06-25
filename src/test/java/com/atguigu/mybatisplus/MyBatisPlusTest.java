@@ -37,7 +37,9 @@ public class MyBatisPlusTest {
 
         User user = userMapper.selectById(1L);
         // SELECT id,name,age,email FROM user WHERE id=?
-        System.out.println("根据ID查询数据,查到的数据为:ID," + user.getId() + ",name" + user.getName());
+        if (user != null) {
+            System.out.println("根据ID查询数据,查到的数据为:ID," + user.getId() + ",name" + user.getName());
+        }
 
         // 批量查询IN,SELECT id,name,age,email FROM user WHERE id IN ( ? , ? , ? )
         List<Long> list = Arrays.asList(1L, 2L, 3L);
@@ -47,7 +49,7 @@ public class MyBatisPlusTest {
         // 根据Map查询, map条件里面的值就是where条件,值都是and的关系。
         // SELECT id,name,age,email FROM user WHERE name = ? AND age = ?
         Map<String, Object> map = new HashMap<>();
-        map.put("name", "Jack");
+        map.put("user_name", "Jack");
         map.put("age", 20);
         List<User> userList1 = userMapper.selectByMap(map);
         userList1.forEach(System.out::println);
@@ -60,6 +62,30 @@ public class MyBatisPlusTest {
          */
         Map<String, Object> mapSelf = userMapper.selectMapById(1L);
         System.out.println("MyBatis的功能,这里使用的SQL语句是UserMapper.xml里面定义的SQL:" + mapSelf);
+
+
+        // 根据Map查询, map条件里面的值就是where条件,值都是and的关系。
+        // SELECT id,name,age,email FROM user WHERE name = ? AND age = ?
+        Map<String, Object> mapLogic = new HashMap<>();
+        mapLogic.put("user_name", "Jack");
+        mapLogic.put("age", 20);
+        mapLogic.put("is_deleted", 1);
+        // 注意SQL语句:SELECT id,user_name AS name,age,email,is_deleted FROM t_user WHERE is_deleted = ? AND user_name = ? AND age = ? AND is_deleted=0
+        // 逻辑删除AND is_deleted=0这个查询条件一定会加上的
+        List<User> userListLogic = userMapper.selectByMap(mapLogic);
+        userListLogic.forEach(System.out::println);
+
+
+        // 根据Map查询, map条件里面的值就是where条件,值都是and的关系。
+        // SELECT id,name,age,email FROM user WHERE name = ? AND age = ?
+        Map<String, Object> mapLogicList = new HashMap<>();
+        mapLogicList.put("user_name", Arrays.asList("zhangsan", "历史"));
+        mapLogicList.put("age", 20);
+
+        // TODO byMap怎么解决 list查询 问题待解决
+        List<User> userListAndIn = userMapper.selectByMap(mapLogicList);
+        userListAndIn.forEach(System.out::println);
+
 
     }
 

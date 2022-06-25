@@ -9,6 +9,6 @@
     -->
     <select id="selectMapById" resultType="map">
 
-        select id, name, age, email from user where id = #{id}
+        select id, user_name, age, email from t_user where id = #{id}
     </select>
 </mapper>
