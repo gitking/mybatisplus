@@ -1,0 +1,20 @@
+spring:
+  # 配置数据源信息
+  datasource:
+    # 配置数据源类型
+    type: com.zaxxer.hikari.HikariDataSource
+    # 配置数据库驱动类
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 注意这个url跟mysql的版本有关系
+    # mysql5的版本URL这样写:jdbc:mysql://localhost:3306/mybatis_plus?characterEncodiing=utf-8&useSSL=false
+    # mysql8的版本URL这样写: jdbc:mysql://localhost:3306/mybatis_plus?serverTimeZone=GMT%2B8&characterEncoding=utf-8&useSSL=false
+    # 多了一个时区的参数
+    url: jdbc:mysql://localhost:3306/mybatis_plus?serverTimeZone=GMT%2B8&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+
+mybatis-plus:
+  configuration:
+    # log日志，这个配置可以让mybatis输出对应的SQL语句
+    log-impl:
+      org.apache.ibatis.logging.stdout.StdOutImpl
