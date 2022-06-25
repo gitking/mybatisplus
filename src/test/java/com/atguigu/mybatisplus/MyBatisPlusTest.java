@@ -66,6 +66,12 @@ public class MyBatisPlusTest {
     @Test
     public void testInsert() {
         User user = new User();
+
+        /**
+         * 注意如果你自己主动设置了主键id的值,那么就以你设置的值为准,不会再使用mybatisplus的雪花ID了,也不会使用数据库的自增ID了。
+         * 如果数据库的主键ID为自增,但是目前数据库里面ID最大的值为10,然后你这里插入了一个ID为100数据,那么下次自增就从100开始自增了。
+         */
+        //user.setId(100L);
         user.setName("张三");
         user.setAge(23);
         user.setEmail("zhangsan@atguigu.com");
@@ -80,8 +86,12 @@ public class MyBatisPlusTest {
         int result = userMapper.deleteById(id);
         System.out.println("根据ID删除数据，删除成功多少行?->" + result);
 
+        /**
+         * 注意,当使用ByMap这类方法时,map的key值必须跟数据库的字段名保持一致,mybatisplus不会帮你自动转换的
+         * 即使你在实体类上面加了注解也一样不会帮你转换的。
+         */
         Map<String, Object> delMap = new HashMap<>();
-        delMap.put("name", "张三");
+        delMap.put("user_name", "张三");
         delMap.put("age", 23);
         int resMap = userMapper.deleteByMap(delMap);
         //DELETE FROM user WHERE name = ? AND age = ?

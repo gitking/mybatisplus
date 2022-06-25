@@ -20,3 +20,10 @@ mybatis-plus:
       org.apache.ibatis.logging.stdout.StdOutImpl
     # 注意,MyBatisPlus默认的mapper配置文件是在classpath下面的mapper文件夹下面，也就是resources下面的mapper下面。如果resources文件夹下面有mapper文件，
     # 那么你就可以不用配mybatis-plus.mapper-locations这个属性。如果你想自定义mapper的路径，你就配置mybatis-plus.mapper-locations这个属性就行了。
+  # 设置MyBatis-plus的全局配置
+  global-config:
+    db-config:
+      # 对所有实体类对应的表面前面加t_
+      table-prefix: t_
+      # 设置统一的主键生成策略
+      id-type: auto
