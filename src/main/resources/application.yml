@@ -18,3 +18,5 @@ mybatis-plus:
     # log日志，这个配置可以让mybatis输出对应的SQL语句
     log-impl:
       org.apache.ibatis.logging.stdout.StdOutImpl
+    # 注意,MyBatisPlus默认的mapper配置文件是在classpath下面的mapper文件夹下面，也就是resources下面的mapper下面。如果resources文件夹下面有mapper文件，
+    # 那么你就可以不用配mybatis-plus.mapper-locations这个属性。如果你想自定义mapper的路径，你就配置mybatis-plus.mapper-locations这个属性就行了。
