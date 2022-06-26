@@ -3,6 +3,7 @@ package com.atguigu.mybatisplus;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 学习MyBatis-Plus的使用
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2022-06-25 15:45:00
  */
 @SpringBootApplication
+@EnableScheduling// 启动定时任务
 public class MyBatisplusApplication {
     public static void main(String[] args) {
         SpringApplication.run(MyBatisplusApplication.class, args);
