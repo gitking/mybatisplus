@@ -14,8 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2022-06-25 15:45:00
  */
 @SpringBootApplication
-// 扫描mapper接口所在的包
-@MapperScan("com.atguigu.mybatisplus.mapper")
 public class MyBatisplusApplication {
     public static void main(String[] args) {
         SpringApplication.run(MyBatisplusApplication.class, args);

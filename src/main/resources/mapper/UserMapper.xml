@@ -11,4 +11,14 @@
 
         select id, user_name, age, email from t_user where id = #{id}
     </select>
+
+    <!--    Page<User> selectPageVo(@Param("page") Page<User> page, @Param("age") Integer age);
+        注意，这里的resultType="User"是类型别名，到目前为止我们还没有给MyBatis设置过类型别名，可以在yml配置文件里面配置类型别名
+        配置类型别名对应的包
+  type-aliases-package: com.atguigu.mybatisplus.pojo 或者 type-aliases-package: com.atguigu.*.pojo 这样.
+   设置了类型别名对应的包之后，那这个包下面所有的类都可以当成别名，默认的别名就是类名并且不区分大小写
+    -->
+    <select id="selectPageVo" resultType="User">
+select id, user_name, age, email from t_user where age > #{age}
+</select>
 </mapper>

@@ -2,6 +2,8 @@ package com.atguigu.mybatisplus.mapper;
 
 import com.atguigu.mybatisplus.pojo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -27,4 +29,17 @@ public interface UserMapper extends BaseMapper<User> {
      * @return Map<String, Object> 结果对象map
      */
     Map<String, Object> selectMapById(Long id);
+
+
+    /**
+     * 利用MyBatisPlus的分页插件功能，自定义分页查询SQL,
+     * 注意第一个参数必须是MyBatisPlus的Page对象，返回值页必须是Page对象.
+     *
+     * 注意这个方法有俩个参数，MyBatis如果有俩个参数我们可以使用MyBatis所提供的访问方式，
+     * 也可以通过@Param来设置命名参数，来规定当前这个参数的访问规则。
+     * @param page MyBatis-Plus所提供的分页对象，必须位于第一个参数的位置
+     * @param age
+     * @return
+     */
+    Page<User> selectPageVo(@Param("page") Page<User> page, @Param("age") Integer age);
 }
