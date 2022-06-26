@@ -2,16 +2,35 @@ spring:
   # 配置数据源信息
   datasource:
     # 配置数据源类型
-    type: com.zaxxer.hikari.HikariDataSource
-    # 配置数据库驱动类
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    # 注意这个url跟mysql的版本有关系
-    # mysql5的版本URL这样写:jdbc:mysql://localhost:3306/mybatis_plus?characterEncodiing=utf-8&useSSL=false
-    # mysql8的版本URL这样写: jdbc:mysql://localhost:3306/mybatis_plus?serverTimeZone=GMT%2B8&characterEncoding=utf-8&useSSL=false
-    # 多了一个时区的参数
-    url: jdbc:mysql://localhost:3306/mybatis_plus?serverTimeZone=GMT%2B8&characterEncoding=utf-8&useSSL=false
-    username: root
-    password: 123456
+#    type: com.zaxxer.hikari.HikariDataSource
+#    # 配置数据库驱动类
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    # 注意这个url跟mysql的版本有关系
+#    # mysql5的版本URL这样写:jdbc:mysql://localhost:3306/mybatis_plus?characterEncodiing=utf-8&useSSL=false
+#    # mysql8的版本URL这样写: jdbc:mysql://localhost:3306/mybatis_plus?serverTimeZone=GMT%2B8&characterEncoding=utf-8&useSSL=false
+#    # 多了一个时区的参数
+#    url: jdbc:mysql://localhost:3306/mybatis_plus?serverTimeZone=GMT%2B8&characterEncoding=utf-8&useSSL=false
+#    username: root
+#    password: 123456
+    # dynamic 配置多数据源
+    dynamic:
+      # 设置默认的数据源或者数据源组, 默认值为master，这个名字其实可以随便起，叫abc也行
+      primary: master
+      # strice的意思是严格，严格匹配数据源，默认为false,true的话匹配不到指定数据源时会抛异常，false的话会使用默认数据源
+      strict: false
+      datasource:
+        # 这里的master必须跟primary的值保持一致,primary叫abc，这里也得叫abc
+        master:
+          url: jdbc:mysql://localhost:3306/mybatis_plus?serverTimeZone=GMT%2B8&characterEncoding=utf-8&useSSL=false
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          username: root
+          password: 123456
+        slave_1:
+          url: jdbc:mysql://localhost:3306/mybatis_plus1?serverTimeZone=GMT%2B8&characterEncoding=utf-8&useSSL=false
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          username: root
+          password: 123456
+
 
 mybatis-plus:
   configuration:
