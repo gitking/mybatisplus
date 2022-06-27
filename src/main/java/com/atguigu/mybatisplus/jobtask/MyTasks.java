@@ -38,7 +38,7 @@ public class MyTasks {
         System.out.println("hello scheduled 定时任务");
     }
 
-    @Scheduled(cron = "*/3 * * * * ?")
+    @Scheduled(cron = "* */2 * * * ?")
     public void task02() {
         count = count + 1;
         System.out.println("开始执行了                     " + new Date() + ":" + count);

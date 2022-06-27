@@ -52,3 +52,30 @@ mybatis-plus:
   type-aliases-package: com.atguigu.*.pojo
   # 扫描通用枚举的包
   type-enums-package: com.atguigu.mybatisplus.enums
+
+xxl:
+  job:
+    # accessToken 允许访问的Token，这个值可以为空，但是这个配置必须要有,这个配置必须要跟xxl-job-admin里面的token一样
+    accessToken: default_token
+    admin:
+      # XXL-JOB的调度中心地址,我们这个项目启动成功之后要把自己当做服务注册到XXL-JOB的调度中心上面去
+      addresses: http://localhost:8080/xxl-job-admin/
+    executor:
+      # 日志存放路径
+      logpath: D:/deplog/xxl-job-handler
+      # 这个是我们这个项目跟调度平台通信的一个端口,调度平台要通过这个端口来告诉我们该执行定时任务了。
+      port: ${random.int[9000,10000]}
+      # 集群部署的话，appname要保持一致
+      appname: xxl-job-test
+      # xxl-job executor registry-address: default use address to registry , otherwise use ip:port if address is null
+      address:
+      ### xxl-job executor server-info
+      ip:
+      ### xxl-job executor log-retention-days
+      logretentiondays: 30
+
+# 我们这个项目是一个WEB项目,需要配置WEB项目的端口
+server:
+  # 因为我们要模拟执行器机器部署，打包后单机运行多次,为服务设置随机端口
+  port: ${random.int[10000,19999]}
+
