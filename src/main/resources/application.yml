@@ -30,6 +30,10 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: root
           password: 123456
+  mvc:
+    # 解决knife4j-spring-boot-starter启动报错
+    pathmatch:
+      matching-strategy: ant-path-matcher
 
 
 mybatis-plus:

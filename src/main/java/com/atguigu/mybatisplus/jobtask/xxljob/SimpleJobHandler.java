@@ -29,12 +29,16 @@ public class SimpleJobHandler {
     @XxlJob(value = "demoJobHandler", init = "", destroy = "")
     public void testXxlJob() throws InterruptedException {
         // 模拟业务的执行
-        for(int i=0; i<5; i++){
-//            XxlJobLogger.log("hello xxl-job 许雪里JOB" + i);
-            // 打印日志的标准方式
-            XxlJobHelper.log("hello xxl-job 许雪里JOB-牛逼啊" + i);
-            TimeUnit.SECONDS.sleep(2);
-            System.out.println("XXL-JOB定时任务被调度中心执行了" + port);
-        }
+//        for(int i=0; i<5; i++){
+////            XxlJobLogger.log("hello xxl-job 许雪里JOB" + i);
+//            // 打印日志的标准方式
+//            XxlJobHelper.log("hello xxl-job 许雪里JOB-牛逼啊" + i);
+//            TimeUnit.SECONDS.sleep(2);
+//            System.out.println("XXL-JOB定时任务被调度中心执行了" + port);
+//        }
+                    TimeUnit.SECONDS.sleep(6);
+        XxlJobHelper.log("hello xxl-job 许雪里JOB-牛逼啊,定时任务执行超时会怎么办？" );
+
+
     }
 }
