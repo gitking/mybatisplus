@@ -22,6 +22,11 @@ import java.util.Set;
 
 /**
  *
+ * requestParam/PathVariable参数校验
+ * GET请求一般会使用requestParam/PathVariable传参。如果参数比较多(比如超过6个)，还是推荐使用DTO对象接收。
+ * 否则，推荐将一个个参数平铺到方法入参中。
+ * 在这种情况下，必须在Controller类上标注@Validated注解，并在入参上声明约束注解(如@Min等)。如果校验失败，会抛出ConstraintViolationException异常。代码示例如下：
+ *
  * 作者：夜尽天明_
  * 链接：https://juejin.cn/post/6856541106626363399
  * 来源：稀土掘金
