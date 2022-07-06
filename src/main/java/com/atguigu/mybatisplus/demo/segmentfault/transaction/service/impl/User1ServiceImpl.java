@@ -16,4 +16,10 @@ public class User1ServiceImpl extends ServiceImpl<User1Mapper, User1> implements
     public void addRequired(User1 user){
         baseMapper.insert(user);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void addRequiresNew(User1 user1) {
+        baseMapper.insert(user1);
+    }
 }

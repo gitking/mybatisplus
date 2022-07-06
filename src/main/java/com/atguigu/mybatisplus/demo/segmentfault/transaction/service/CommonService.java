@@ -20,10 +20,32 @@ public interface CommonService {
 
     /**
      * 测试场景02:
+     * 外围方法开启事务，这个是使用率比较高的场景。
+     *
      */
     public void transaction_exception_required_required();
 
+    /**
+     * 测试场景02:
+     * 外围方法开启事务，这个是使用率比较高的场景。
+     *
+     */
     public void transaction_required_required_exception();
 
+    /**
+     * 测试场景02:
+     * 外围方法开启事务，这个是使用率比较高的场景。
+     *
+     */
     public void transaction_required_required_exception_try();
+
+
+    public void notransaction_exception_requiresNew_requiresNew();
+
+    public void notrandaction_requiresNew_requiresNew_exception();
+
+    public void transaction_exception_required_requiresNew_requiresNew();
+    public void transaction_required_requiresNew_requiresNew_exception();
+
+    public void transaction_required_requiresNew_requiresNew_exception_try();
 }

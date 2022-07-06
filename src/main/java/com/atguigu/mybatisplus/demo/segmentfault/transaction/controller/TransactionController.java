@@ -73,4 +73,61 @@ public class TransactionController {
     public void testTransaction02() {
         commonService.notransaction_required_required_exception();
     }
+
+    /**
+     * 测试场景02:
+     * 外围方法开启事务，这个是使用率比较高的场景。
+     *
+     */
+    @PostMapping("/testCase02_01")
+    public void testCase02_01(){
+        commonService.transaction_exception_required_required();
+    }
+
+    /**
+     * 测试场景02:
+     * 外围方法开启事务，这个是使用率比较高的场景。
+     *
+     */
+    @PostMapping("/testCase02_02")
+    public void testCase02_02(){
+        commonService.transaction_required_required_exception();
+    }
+
+    /**
+     * 测试场景02:
+     * 外围方法开启事务，这个是使用率比较高的场景。
+     *
+     */
+    @PostMapping("/testCase02_03")
+    public void testCase02_03(){
+        commonService.transaction_required_required_exception_try();
+    }
+
+    @PostMapping("/testRequiresNewCase01_01")
+    public void testRequiresNewCase01_01() {
+        commonService.notransaction_exception_requiresNew_requiresNew();
+    }
+
+    @PostMapping("/testRequiresNewCase01_02")
+    public void testRequiresNewCase01_02() {
+        commonService.notrandaction_requiresNew_requiresNew_exception();
+    }
+
+    @PostMapping("/testRequiresNewCase02_01")
+    public void testRequiresNewCase02_01() {
+        commonService.transaction_exception_required_requiresNew_requiresNew();
+    }
+
+    @PostMapping("/testRequiresNewCase02_02")
+    public void testRequiresNewCase02_02() {
+        commonService.transaction_required_requiresNew_requiresNew_exception();
+    }
+
+    @PostMapping("/testRequiresNewCase02_03")
+    public void testRequiresNewCase02_03() {
+        commonService.transaction_required_requiresNew_requiresNew_exception_try();
+    }
+
+
 }

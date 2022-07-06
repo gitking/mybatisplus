@@ -6,4 +6,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface User1Service extends IService<User1> {
 
     public void addRequired(User1 user1);
+
+    public void addRequiresNew(User1 user1);
 }
