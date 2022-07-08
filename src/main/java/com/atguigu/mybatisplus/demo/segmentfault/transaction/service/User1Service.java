@@ -8,4 +8,6 @@ public interface User1Service extends IService<User1> {
     public void addRequired(User1 user1);
 
     public void addRequiresNew(User1 user1);
+
+    public void addNested(User1 user1);
 }

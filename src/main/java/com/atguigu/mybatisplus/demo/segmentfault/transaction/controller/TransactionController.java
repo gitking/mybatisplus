@@ -129,5 +129,28 @@ public class TransactionController {
         commonService.transaction_required_requiresNew_requiresNew_exception_try();
     }
 
+    @PostMapping("/testNestedCase01_01")
+    public void testNestedCase01_01(){
+        commonService.notransaction_exception_nested_nested();
+    }
 
+    @PostMapping("/testNestedCase01_02")
+    public void testNestedCase01_02(){
+        commonService.notransaction_nested_nested_exception();
+    }
+
+    @PostMapping("/testNestedCase02_01")
+    public void testNestedCase02_01() {
+        commonService.transaction_exception_nested_nested();
+    }
+
+    @PostMapping("/testNestedCase02_02")
+    public void testNestedCase02_02() {
+        commonService.transaction_nested_nested_exception();
+    }
+
+    @PostMapping("/testNestedCase02_03")
+    public void testNestedCase02_03() {
+        commonService.transaction_nested_nested_exception_try();
+    }
 }

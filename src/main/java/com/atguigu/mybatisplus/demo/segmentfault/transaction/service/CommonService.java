@@ -48,4 +48,14 @@ public interface CommonService {
     public void transaction_required_requiresNew_requiresNew_exception();
 
     public void transaction_required_requiresNew_requiresNew_exception_try();
+
+    public void notransaction_exception_nested_nested();
+
+    public void notransaction_nested_nested_exception();
+
+    public void transaction_exception_nested_nested();
+
+    public void transaction_nested_nested_exception();
+
+    public void transaction_nested_nested_exception_try();
 }

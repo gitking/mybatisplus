@@ -194,6 +194,8 @@ public class CommonServiceImpl implements CommonService {
          * @满是诱惑 参考一下springAOP的实现机制吧：https://blog.csdn.net/aya19880214/article/details/50640596
          * 回复2019-02-12
          * walker：@满是诱惑 @victor 在同一个类中是自我调用，事务注解不会生效的，所以只有外围方法的事务，try catch异常当然不会回滚
+         *
+         * 使用HibernateTransactionManager事务管理器 测试nested场景二方法三时，两个对象都会保存，官方文档表示不支持nested
          */
     }
 
@@ -314,7 +316,122 @@ public class CommonServiceImpl implements CommonService {
         try {
             user2Service.addRequiresNewException(user21);
         } catch (Exception e) {
+            //老师，请问一下，关于2.2的验证方法3，按您文档中写的话，异常被catch不会被外围方法感知，外围方法事务不回滚，故插入“张三”方法插入成功。但是我实际中测试发现“张三”并没有被插入，我用的是jpa测试。
             System.out.println("测试PROPAGATION_REQUIRES_NEW场景02:外围方法开启事务。抛出异常被catch住，不往外抛");
         }
     }
+
+
+    /**
+     * 测试PROPAGATION_NESTED场景01:此场景外围方法没有开启事务。
+     * PROPAGATION_NESTED 	如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。
+     */
+    @Override
+    public void notransaction_exception_nested_nested(){
+        User1 user1 = new User1();
+        user1.setName("张三，，测试测试PROPAGATION_NESTED场景01，方法1，Propagation.NESTED");
+        user1Service.addNested(user1);
+
+        User2 user2 = new User2();
+        user2.setName("李四，测试测试PROPAGATION_NESTED场景01，方法1，Propagation.NESTED");
+        user2Service.addNested(user2);
+        throw new RuntimeException();
+    }
+
+    /**
+     * 测试PROPAGATION_NESTED场景01:此场景外围方法没有开启事务。
+     * PROPAGATION_NESTED 	如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。
+     * 分别执行验证方法，结果：
+     * 验证方法序号 	        数据库结果 	                    结果分析
+     * 1 	            “张三”、“李四”均插入。 	    外围方法未开启事务，插入“张三”、“李四”方法在自己的事务中独立运行，外围方法异常不影响内部插入“张三”、“李四”方法独立的事务。
+     * 2 	            “张三”插入，“李四”未插入。 	外围方法没有事务，插入“张三”、“李四”方法都在自己的事务中独立运行,所以插入“李四”方法抛出异常只会回滚插入“李四”方法，插入“张三”方法不受影响。
+     * 结论：
+     * 通过这两个方法我们证明了在外围方法未开启事务的情况下Propagation.NESTED和Propagation.REQUIRED作用相同，修饰的内部方法都会新开启自己的事务，且开启的事务相互独立，互不干扰。
+     */
+    @Override
+    public void notransaction_nested_nested_exception(){
+        User1 user1 = new User1();
+        user1.setName("张三，，测试测试PROPAGATION_NESTED场景01，方法2，Propagation.NESTED");
+        user1Service.addNested(user1);
+
+        User2 user2 = new User2();
+        user2.setName("李四，测试测试PROPAGATION_NESTED场景01，方法2，Propagation.NESTED");
+        user2Service.addNestedException(user2);
+    }
+
+    /**
+     * 测试PROPAGATION_NESTED场景02:外围方法开启事务。
+     * PROPAGATION_NESTED 	如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。
+     * 分别执行验证方法，结果：
+     * 验证方法序号 	        数据库结果 	            结果分析
+     * 1 	            “张三”、“李四”均未插入。 	外围方法开启事务，内部事务为外围事务的子事务，外围方法回滚，内部方法也要回滚。
+     * 2 	            “张三”、“李四”均未插入。 	外围方法开启事务，内部事务为外围事务的子事务，内部方法抛出异常回滚，且外围方法感知异常致使整体事务回滚。
+     * 3 	            “张三”插入、“李四”未插入。 	外围方法开启事务，内部事务为外围事务的子事务，插入“李四”内部方法抛出异常，可以单独对子事务回滚。
+     * 结论：以上试验结果我们证明在外围方法开启事务的情况下Propagation.NESTED修饰的内部方法属于外部事务的子事务，外围主事务回滚，子事务一定回滚，而内部子事务可以单独回滚而不影响外围主事务和其他子事务
+     */
+    @Override
+    @Transactional
+    public void transaction_exception_nested_nested() {
+        User1 user1 = new User1();
+        user1.setName("张三，，测试测试PROPAGATION_NESTED场景02，方法1，Propagation.NESTED");
+        user1Service.addNested(user1);
+
+        User2 user2 = new User2();
+        user2.setName("李四，测试测试PROPAGATION_NESTED场景02，方法1，Propagation.NESTED");
+        user2Service.addNested(user2);
+        throw new RuntimeException();
+    }
+
+    @Override
+    @Transactional
+    public void transaction_nested_nested_exception() {
+        User1 user1 = new User1();
+        user1.setName("张三，，测试测试PROPAGATION_NESTED场景02，方法2，Propagation.NESTED");
+        user1Service.addNested(user1);
+
+        User2 user2 = new User2();
+        user2.setName("李四，测试测试PROPAGATION_NESTED场景02，方法2，Propagation.NESTED");
+        user2Service.addNestedException(user2);
+    }
+
+
+    /**
+     * 测试PROPAGATION_NESTED场景02:外围方法开启事务。
+     * PROPAGATION_NESTED 	如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。
+     *
+     * 分别执行验证方法，结果：
+     * 验证方法序号 	        数据库结果 	            结果分析
+     * 1 	            “张三”、“李四”均未插入。 	外围方法开启事务，内部事务为外围事务的子事务，外围方法回滚，内部方法也要回滚。
+     * 2 	            “张三”、“李四”均未插入。 	外围方法开启事务，内部事务为外围事务的子事务，内部方法抛出异常回滚，且外围方法感知异常致使整体事务回滚。
+     * 3 	            “张三”插入、“李四”未插入。 	外围方法开启事务，内部事务为外围事务的子事务，插入“李四”内部方法抛出异常，可以单独对子事务回滚。
+     * 结论：以上试验结果我们证明在外围方法开启事务的情况下Propagation.NESTED修饰的内部方法属于外部事务的子事务，外围主事务回滚，子事务一定回滚，而内部子事务可以单独回滚而不影响外围主事务和其他子事务
+     */
+    @Override
+    @Transactional
+    public void transaction_nested_nested_exception_try() {
+        User1 user1 = new User1();
+        user1.setName("张三，，测试测试PROPAGATION_NESTED场景02，方法3，Propagation.NESTED");
+        user1Service.addNested(user1);
+
+        User2 user2 = new User2();
+        user2.setName("李四，测试测试PROPAGATION_NESTED场景02，方法3，Propagation.NESTED");
+        try {
+            user2Service.addNestedException(user2);
+        } catch (Exception e){
+            System.out.println("测试测试PROPAGATION_NESTED场景02，方法2，Propagation.NESTED，抛出异常被catch住了而且没有继续往外抛");
+        }
+    }
+
+    /**
+     *
+     * 4. REQUIRED,REQUIRES_NEW,NESTED异同
+     * 由“1.2 场景二”和“3.2 场景二”对比，我们可知：
+     * NESTED和REQUIRED修饰的内部方法都属于外围方法事务，如果外围方法抛出异常，这两种方法的事务都会被回滚。但是REQUIRED是加入外围方法事务，所以和外围事务同属于一个事务，一旦REQUIRED事务抛出异常被回滚，外围方法事务也将被回滚。而NESTED是外围方法的子事务，有单独的保存点，所以NESTED方法抛出异常被回滚，不会影响到外围方法的事务。
+     *
+     * 由“2.2 场景二”和“3.2 场景二”对比，我们可知：
+     * NESTED和REQUIRES_NEW都可以做到内部方法事务回滚而不影响外围方法事务。但是因为NESTED是嵌套事务，所以外围方法回滚之后，作为外围方法事务的子事务也会被回滚。而REQUIRES_NEW是通过开启新的事务实现的，内部事务和外围事务是两个事务，外围事务回滚不会影响内部事务。
+     * 5. 其他事务传播行为
+     * 鉴于文章篇幅问题，其他事务传播行为的测试就不在此一一描述了，感兴趣的读者可以去源码中自己寻找相应测试代码和结果解释。传送门：
+     * https://github.com/TmTse/transaction-test
+     */
 }

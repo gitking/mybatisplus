@@ -22,4 +22,10 @@ public class User1ServiceImpl extends ServiceImpl<User1Mapper, User1> implements
     public void addRequiresNew(User1 user1) {
         baseMapper.insert(user1);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.NESTED)
+    public void addNested(User1 user1){
+        baseMapper.insert(user1);
+    }
 }

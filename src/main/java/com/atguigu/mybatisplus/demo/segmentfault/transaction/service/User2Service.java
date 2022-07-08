@@ -12,4 +12,8 @@ public interface User2Service extends IService<User2> {
     public void addRequiresNew(User2 user2);
 
     public void addRequiresNewException(User2 user2);
+
+    public void addNested(User2 user2);
+
+    public void addNestedException(User2 user2);
 }
