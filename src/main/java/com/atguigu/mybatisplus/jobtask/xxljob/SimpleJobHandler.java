@@ -89,4 +89,64 @@ public class SimpleJobHandler {
         userService.save(user);
 //        int ss = 1/0;
     }
+
+    /**
+     * 不使用Spring的事务注解@Transactional，这个时候事务模式是自动提交到的，即SQL执行完就立即提交了。
+     * 后面的代码报错，则后面的SQL不会提交。
+     */
+    @XxlJob(value = "testTransaction02")
+    public void testTransaction02() {
+        try {
+            User user = new User();
+            user.setName("不使用Spring的事务注解@Transactional，01");
+            userService.save(user);
+            saveUser02();
+        } catch (Exception e) {
+            XxlJobHelper.log("不使用Spring的事务注解@Transactional，这个时候事务模式是自动提交到的，即SQL执行完就立即提交了。后面的代码报错，则后面的SQL不会提交。");
+            throw e;
+        }
+    }
+
+    private void saveUser02() {
+        User user = new User();
+        user.setName("不使用Spring的事务注解@Transactional，02");
+        userService.save(user);
+
+        user = new User();
+        user.setName("这个就不会提交事务了，上面的会提交");
+        user.setEmail("email的长度超长了，超过50个字符了。email的长度超长了，超过50个字符了email的长度超长了，超过50个字符了email的长度超长了，超过50个字符了email的长度超长了，超过50个字符了");
+        userService.save(user);
+    }
+
+
+    /**
+     * 不使用Spring的事务注解@Transactional，这个时候事务模式是自动提交到的，即SQL执行完就立即提交了。
+     * 后面的代码报错，则后面的SQL不会提交。，使用注解之后则一起回滚啊
+     *
+     * testTransaction03 这个方法跟 testTransaction02方法唯一的区别就是testTransaction03这个方法添加了@Transactional事务注解啊
+     */
+    @XxlJob(value = "testTransaction03")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void testTransaction03() {
+        try {
+            User user = new User();
+            user.setName("不使用Spring的事务注解@Transactional，01，使用注解之后则一起回滚啊");
+            userService.save(user);
+            saveUser03();
+        } catch (Exception e) {
+            XxlJobHelper.log("不使用Spring的事务注解@Transactional，这个时候事务模式是自动提交到的，即SQL执行完就立即提交了。后面的代码报错，则后面的SQL不会提交。，使用注解之后则一起回滚啊");
+            throw e;
+        }
+    }
+
+    private void saveUser03() {
+        User user = new User();
+        user.setName("不使用Spring的事务注解@Transactional，02，使用注解之后则一起回滚啊");
+        userService.save(user);
+
+        user = new User();
+        user.setName("这个就不会提交事务了，上面的会提交");
+        user.setEmail("email的长度超长了，超过50个字符了。email的长度超长了，超过50个字符了email的长度超长了，超过50个字符了email的长度超长了，超过50个字符了email的长度超长了，超过50个字符了");
+        userService.save(user);
+    }
 }
