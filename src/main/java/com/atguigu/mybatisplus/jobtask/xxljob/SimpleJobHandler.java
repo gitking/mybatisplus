@@ -1,10 +1,16 @@
 package com.atguigu.mybatisplus.jobtask.xxljob;
 
+import com.atguigu.mybatisplus.pojo.User;
+import com.atguigu.mybatisplus.service.UserService;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,6 +28,9 @@ public class SimpleJobHandler {
     @Value("${server.port:没有获取到端口}")
     private String port;
 
+    @Autowired
+    UserService userService;
+
     /**
      * 简单任务示例(Bean模式)
      * @throws InterruptedException
@@ -38,7 +47,46 @@ public class SimpleJobHandler {
 //        }
                     TimeUnit.SECONDS.sleep(6);
         XxlJobHelper.log("hello xxl-job 许雪里JOB-牛逼啊,定时任务执行超时会怎么办？" );
+    }
 
+    /**
+     * XxlJob默认支持Spring事务的传播性
+     */
+    @XxlJob(value = "testTransaction")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void testTransaction() {
+        try {
+            XxlJobHelper.log("hello xxl-job 加上SpringBoot @Transactional 事务");
+            User user = new User();
+            user.setName("测试XXL-job事务异常");
+            userService.save(user);
+            int ss = 1/0;
+        } catch (Exception e) {
+            XxlJobHelper.log("hello xxl-job 加上SpringBoot @Transactional 事务，抛异常", e);
+            throw e;
+        }
+    }
 
+    @XxlJob(value = "testTransaction01")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void testTransaction01() {
+        try {
+            XxlJobHelper.log("hello xxl-job 加上SpringBoot @Transactional 事务,调用私有方法,testTransaction01");
+            User user = new User();
+            user.setName("测试XXL-job事务调用私有方法，异常啊");
+            userService.save(user);
+            saveUser();
+        } catch (Exception e) {
+            XxlJobHelper.log("hello xxl-job 加上SpringBoot @Transactional 事务，抛异常，异常啊testTransaction01", e);
+            throw e;
+        }
+    }
+
+    private void saveUser() {
+        XxlJobHelper.log("hello xxl-job 加上SpringBoot @Transactional 事务");
+        User user = new User();
+        user.setName("测试XXL-job事务私有方法里面的能保存进行吗，异常啊");
+        userService.save(user);
+//        int ss = 1/0;
     }
 }
