@@ -1,10 +1,11 @@
-package com.atguigu.mybatisplus;
+package com.atguigu;
 
 import org.hibernate.validator.HibernateValidator;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.validation.Validation;
@@ -22,6 +23,8 @@ import javax.validation.ValidatorFactory;
  */
 @SpringBootApplication
 @EnableScheduling// 启动定时任务
+@EnableAsync // 启动异步任务
+@EnableAspectJAutoProxy(exposeProxy = true,proxyTargetClass = true)
 public class MyBatisplusApplication {
     public static void main(String[] args) {
         SpringApplication.run(MyBatisplusApplication.class, args);

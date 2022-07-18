@@ -83,3 +83,8 @@ server:
   # 因为我们要模拟执行器机器部署，打包后单机运行多次,为服务设置随机端口
   port: ${random.int[10000,19999]}
 
+threadpool:
+  core-pool-size: 50
+  max-pool-size: 200
+  queue-capacity: 1000
+  keep-alive-seconds: 300

@@ -41,7 +41,7 @@ public class MyTasks {
     @Scheduled(cron = "* */2 * * * ?")
     public void task02() {
         count = count + 1;
-        System.out.println("开始执行了                     " + new Date() + ":" + count);
+        System.out.println("MyTasks.task02 @Scheduled开始执行了                     " + new Date() + ":" + count);
         try {
             // TODO 问题待解决，如果执行超过3秒,会暂停本次执行，等待下一次定时任务来临时，继续执行上一次的任务。
             Thread.sleep(3100);
