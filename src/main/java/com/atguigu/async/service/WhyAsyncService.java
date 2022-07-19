@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class WhyAsyncService {
 
     @Async(value = "whyThreadPool")
+    @Transactional(readOnly = true)
     public void testAsync() throws InterruptedException {
         TimeUnit.SECONDS.sleep(1);
         log.info(Thread.currentThread().getName() + "你看看我是不是异步的呢？");
@@ -31,7 +33,7 @@ public class WhyAsyncService {
      * @throws InterruptedException
      */
     public void testAsyncInnerMethodSolve() throws InterruptedException {
-        log.info("我在我的方法内部调用异步方法，还有用吗？");
+        log.info("我在我的方法内部调用异步方法，还有用吗？-->testAsyncInnerMethodSolve");
         // 调了这个异步方法不起作用，解决办法看testAsyncInnerMethodSolve
         WhyAsyncService currentProxy = (WhyAsyncService) AopContext.currentProxy();
         currentProxy.testAsync();

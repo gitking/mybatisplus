@@ -24,7 +24,7 @@ import javax.validation.ValidatorFactory;
 @SpringBootApplication
 @EnableScheduling// 启动定时任务
 @EnableAsync // 启动异步任务
-@EnableAspectJAutoProxy(exposeProxy = true,proxyTargetClass = true)
+@EnableAspectJAutoProxy(exposeProxy = true,proxyTargetClass = true) // 暴露当前代理对象到当前线程绑定,https://cloud.tencent.com/developer/article/1497700 《从@Async案例找到Spring框架的bug：exposeProxy=true不生效原因大剖析+最佳解决方案【享学Spring】》
 public class MyBatisplusApplication {
     public static void main(String[] args) {
         SpringApplication.run(MyBatisplusApplication.class, args);

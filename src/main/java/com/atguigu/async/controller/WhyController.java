@@ -19,7 +19,9 @@ public class WhyController {
     @GetMapping("/test")
     public String test() throws InterruptedException {
         log.info(Thread.currentThread().getName() + "-> WhyAsyncService");
-        whyAsyncService.testAsyncInnerMethodSolve();
+        for (int i=0;i<99;i++) {
+            whyAsyncService.testAsyncInnerMethodSolve();
+        }
         return "AopContext.currentProxy()可以解决在本类中的方法调用其他方法";
     }
 }
