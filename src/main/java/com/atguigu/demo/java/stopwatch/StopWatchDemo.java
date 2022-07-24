@@ -1,4 +1,4 @@
-package com.atguigu.demo.java;
+package com.atguigu.demo.java.stopwatch;
 
 import com.google.common.base.Stopwatch;
 import org.springframework.util.StopWatch;
