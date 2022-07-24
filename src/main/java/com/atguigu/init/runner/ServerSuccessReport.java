@@ -31,6 +31,8 @@ public class ServerSuccessReport implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // java main 方法传参: java main类 参数 参数,SpringBoot启动给main方法传参数：SpringBoot启动给main方法传参数：java -jar mybatisplus-1.0-SNAPSHOT.jar --foo=bar --developer.name=zhihao.miao
+        // idea给main方法传参可以看自己写的文档《IntelliJ IDEA.docx》
         System.out.println("===========应用已经成功启动===================,获取Main方法的入参" + Arrays.asList(args));
         System.out.println("注意看ServerSuccessReport和ServerStartedReport这俩个谁先执行。");
         System.out.println("Order(1)的值越小越先执行，如果Order的值一样,哪个类先被加载就先执行哪个，可以参考Ordered.HIGHEST_PRECEDENCE");

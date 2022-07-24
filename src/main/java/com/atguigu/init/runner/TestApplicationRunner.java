@@ -55,6 +55,8 @@ public class TestApplicationRunner implements ApplicationRunner {
         System.out.println("是SpringBoot启动方法run里面最后一步才执行的。");
         System.out.println("ApplicationRunner要比CommandLineRunner先运行，这个待会看下源码就知道了");
 
+        // java main 方法传参: java main类 参数 参数,SpringBoot启动给main方法传参数：java -jar mybatisplus-1.0-SNAPSHOT.jar --foo=bar --developer.name=zhihao.miao
+        // idea给main方法传参可以看自己写的文档《IntelliJ IDEA.docx》
         System.out.println("获取参数的功能，可看源码org.springframework.boot.ApplicationArguments");
         System.out.println("====MyApplicationRunner===,获得传给Main方法的原始参数：" + Arrays.asList(args.getSourceArgs()));
         System.out.println("====getOptionNames=======，获得所有参数的key值" + args.getOptionNames());
