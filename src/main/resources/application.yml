@@ -34,6 +34,20 @@ spring:
     # 解决knife4j-spring-boot-starter启动报错
     pathmatch:
       matching-strategy: ant-path-matcher
+  mail:
+    host: smtp.test.com
+    port: 465
+    username: stest@test.com
+    password: k
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          mechanisms: NTLM
+          starttls:
+            enable: false
+            requested: false
 
 
 mybatis-plus:
