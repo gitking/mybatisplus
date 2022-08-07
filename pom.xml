@@ -56,20 +56,14 @@
             <version>3.5.1</version>
         </dependency>
 
-        <!-- lombok用于简化实体类开发，IDEA自己还需要安装lombok的插件 -->
+        <!-- mybatis-plus 多数据源 -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!-- mysql驱动 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>3.5.0</version>
         </dependency>
 
-        <!-- mybatisplus 代码生成器 -->
+        <!-- mybatisplus 代码生成器 BEGIN -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
@@ -79,12 +73,20 @@
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
         </dependency>
+        <!-- mybatisplus 代码生成器 END -->
 
-        <!-- 多数据源 -->
+        <!-- mysql驱动 -->
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-            <version>3.5.0</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- lombok用于简化实体类开发，IDEA自己还需要安装lombok的插件 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- XXL-JOB -->
