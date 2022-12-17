@@ -17,5 +17,5 @@ import org.springframework.stereotype.Service;
  */
 @DS("master")//指定数据源
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User>implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 }

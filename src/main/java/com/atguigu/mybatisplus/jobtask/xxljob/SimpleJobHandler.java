@@ -47,6 +47,11 @@ public class SimpleJobHandler {
 //        }
                     TimeUnit.SECONDS.sleep(6);
         XxlJobHelper.log("hello xxl-job 许雪里JOB-牛逼啊,定时任务执行超时会怎么办？" );
+        XxlJobHelper.getJobParam();
+        XxlJobHelper.getShardIndex();
+        XxlJobHelper.getShardTotal();
+        XxlJobHelper.getJobLogFileName();
+        XxlJobHelper.getJobId();
     }
 
     /**

@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @SpringBootTest
 public class MyBatisPlusServiceTest {
 
@@ -43,5 +44,32 @@ public class MyBatisPlusServiceTest {
         list.forEach(user -> {
             System.out.println("批量插入后生成的ID为:" + user.getId());
         });
+    }
+
+
+    @Test
+    public void testLambdaQuery(){
+        /**
+         * 注意lambdaQuery() 和  query() 方法都是在IService接口里面的
+         *
+         */
+        User user = userService.lambdaQuery().eq(User::getName, "ybc").one();
+        System.out.println("lambdaQuery()可以直接自动创建一个LambdaQueryWrapper对象" + user);
+
+        User queryUser = userService.query().eq("user_name", "ybc").one();
+        System.out.println("query()可以直接自动创建一个QueryWrapper对象" + queryUser);
+    }
+
+    @Test
+    public void testLambdaQueryLast(){
+        /**
+         * 注意lambdaQuery() 和  query() 方法都是在IService接口里面的
+         * .last()方面后面可以增加一个limit 1 自定义的SQL语句
+         */
+        User user = userService.lambdaQuery().eq(User::getName, "ybc").last(" limit 1 ").one();
+        System.out.println("lambdaQuery()可以直接自动创建一个LambdaQueryWrapper对象" + user);
+
+        User queryUser = userService.query().eq("user_name", "ybc").last(" limit 1 ").one();
+        System.out.println("query()可以直接自动创建一个QueryWrapper对象" + queryUser);
     }
 }
