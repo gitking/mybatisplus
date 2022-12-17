@@ -69,7 +69,13 @@ public class MyBatisPlusServiceTest {
         User user = userService.lambdaQuery().eq(User::getName, "ybc").last(" limit 1 ").one();
         System.out.println("lambdaQuery()可以直接自动创建一个LambdaQueryWrapper对象" + user);
 
+        User orderUser = userService.lambdaQuery().eq(User::getName, "ybc").orderByAsc(User::getName).last(" limit 1 ").one();
+        System.out.println("lambdaQuery()可以直接自动创建一个LambdaQueryWrapper对象，先排序再Limit" + orderUser);
+
         User queryUser = userService.query().eq("user_name", "ybc").last(" limit 1 ").one();
         System.out.println("query()可以直接自动创建一个QueryWrapper对象" + queryUser);
+
+        User orderByQueryUser = userService.query().eq("user_name", "ybc").orderByAsc("user_name").last(" limit 1 ").one();
+        System.out.println("query()可以直接自动创建一个QueryWrapper对象,排序后再Limit" + orderByQueryUser);
     }
 }
